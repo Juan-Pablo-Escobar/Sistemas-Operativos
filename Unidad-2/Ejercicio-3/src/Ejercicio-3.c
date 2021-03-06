@@ -8,10 +8,20 @@
  ============================================================================
  */
 
-#include <stdio.h>
-#include <stdlib.h>
+ #include<stdio.h>
+ #include<stdlib.h>
+ #include<unistd.h>
+ int main()
+ {
+         //A null terminated array of character
+         //pointers
+         char *args[]={"./EXEC",NULL};
+         execv(args[0],args);
 
-int main(void) {
-	puts("!!!Hello World!!!"); /* prints !!!Hello World!!! */
-	return EXIT_SUCCESS;
-}
+         /*All statements are ignored after execvp() call as this whole
+         process(execDemo.c) is replaced by another process (EXEC.c)
+         */
+         printf("Ending-----");
+
+     return 0;
+ }

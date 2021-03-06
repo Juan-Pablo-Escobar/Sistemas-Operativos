@@ -1,6 +1,6 @@
 /*
  ============================================================================
- Name        : Ejercicio-6.c
+ Name        : Ejercicio-8.c
  Author      : 
  Version     :
  Copyright   : Your copyright notice
@@ -12,15 +12,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-int factorial(int a){
-	int result=a;
-	for(int i =a;i>1;i--){
-		result = result*(i-1);
-	}
-	return result;
-}
+int main(int argc, char *argv[]) {
 
-int main(void) {
 	int mypid = getpid();
 	int pid[3];
 	int id=0;
@@ -36,10 +29,17 @@ int main(void) {
 		printf("Process %d terminated\n",wait(NULL));
 		printf("Process %d terminated\n",wait(NULL));
 	}
-	if(id!=0){
-		for(int i = 1;i<11;i++){
-			printf("[%d]Factorial(%d): %d\n",id,i,factorial(i));
-		}
+	if(id==1){
+		char *args[]={"./prom","4","5","6","7","8",NULL};
+		execv(args[0],args);
+	}else if(id==2){
+
+		char *args[]={"./max","4","5","6","7","8",NULL};
+		execv(args[0],args);
+	}else if(id==3){
+
+		char *args[]={"./min","4","5","6","7","8",NULL};
+		execv(args[0],args);
 	}
 
 
