@@ -8,20 +8,26 @@
  ============================================================================
  */
 
- #include<stdio.h>
- #include<stdlib.h>
- #include<unistd.h>
- int main()
- {
-         //A null terminated array of character
-         //pointers
-         char *args[]={"./EXEC",NULL};
-         execv(args[0],args);
+#include<stdio.h>
+#include<stdlib.h>
+#include<unistd.h>
+#include <pthread.h>
 
-         /*All statements are ignored after execvp() call as this whole
-         process(execDemo.c) is replaced by another process (EXEC.c)
-         */
-         printf("Ending-----");
+int x = 0;
 
-     return 0;
- }
+void ft(){
+	int i;
+	printf("Identificador de hilo %d. \n tiene el valor de %d \n antes de ser interpretado 1000 veces por este hilo \n",(int)getpid(),x);
+	for(i = 0;i<1000;i++)x++;
+}
+
+int main()
+{
+	pthread_t hilos_ids[4];
+	int i;
+	for(i = 0; i<4;++i) pthread_create(&hilos_ids[i],NULL,(void*)ft,NULL);
+	for(i = 0; i<4;++i) pthread_join(hilos_ids[i],NULL);
+	printf("Hilo principal: x= %d\n",x);
+
+	return 0;
+}
