@@ -1,6 +1,6 @@
 /*
  ============================================================================
- Name        : Ejercicio-6.c
+ Name        : Ejercicio-3.c
  Author      : 
  Version     :
  Copyright   : Your copyright notice
