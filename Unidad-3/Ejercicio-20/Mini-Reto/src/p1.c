@@ -107,6 +107,10 @@ int main(int argc, char *argv[]) {
 		printf("%s %s %d\n", lista1.registros[i].nombre,lista1.registros[i].ocupacion,lista1.registros[i].edad);
 	}
 
+	if(sem_unlink("semFiles") == -1){
+		perror("pSemWait sem_unlink fails: ");
+		exit(EXIT_FAILURE);
+	}
 
 
 }

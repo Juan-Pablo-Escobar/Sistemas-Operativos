@@ -83,6 +83,12 @@ int main(int argc, char *argv[]) {
 		exit(EXIT_FAILURE);
 	}
 
+	if(sem_close(sem) == -1){
+		perror("pSemPost sem_close fails: ");
+		exit(EXIT_FAILURE);
+	}
+
+
 }
 
 
