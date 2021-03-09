@@ -32,6 +32,7 @@ struct hilo_param{
 
 int p_hilo2(struct hilo_param* hilo2_param) {
 
+
 	char outfile[20];
 	strcpy(outfile,hilo2_param->outfile);
 	printf("archivo %s",outfile);
