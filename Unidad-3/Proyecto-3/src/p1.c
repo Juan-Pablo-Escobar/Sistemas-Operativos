@@ -46,8 +46,11 @@ void shutdown_control_mechanism() {
 void lectura(char *mem) {
 	while (1) {
 		sem_wait(semaphore1);
+		if(!strcmp(mem,"exit")) {
+			printf("Proceso hermano cerrado\n");
+			break;
+		}
 		printf("ACK: %s \n",mem);
-		if(!strcmp(mem,"exit")) break;
 	}
 }
 
