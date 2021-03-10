@@ -43,20 +43,21 @@ void shutdown_control_mechanism() {
 }
 
 void lectura(char *mem){
-	printf("Reading start\n");
 	while(1){
 		sem_wait(semaphore);
-		printf("Llego Mensaje : %s\n",mem);
+		printf("ACK: %s\n",mem);
+		if(!strcmp(mem,"exit")) break;
 	}
 }
 
 void escritura(char *mem){
-	printf("Writing start\n");
 	while(1){
 		char a[20];
-		scanf("%s", a);
+		scanf("%[^\n]", a);
+		getchar();
 		strcpy(mem,a);
 		sem_post(semaphore1);
+		if(!strcmp(mem,"exit")) break;
 	}
 }
 
@@ -67,7 +68,6 @@ void init_shared_resource() {
         perror("Failed to create shared memory: ");
         exit(EXIT_FAILURE);
     }
-    fprintf(stdout, "Shared memory is created with fd: %d\n", shared_fd);
 }
 
 void shutdown_shared_resource() {
@@ -78,23 +78,24 @@ void shutdown_shared_resource() {
 }
 
 int main(int argc, char **argv) {
+
+
 	init_control_mechanism();
 	sem_post(semaphore1);
 	sem_wait(semaphore);
-
 	init_shared_resource();
 
 	if (ftruncate(shared_fd, SH_SIZE * sizeof(char)) < 0) {
 		perror("Truncation failed: ");
 		exit(EXIT_FAILURE);
 	}
-	fprintf(stdout, "The memory region is truncated.\n");
 	void* map = mmap(NULL, SH_SIZE, PROT_WRITE, MAP_SHARED, shared_fd, 0);
 	if (map == MAP_FAILED) {
 		perror("Mapping failed: ");
 		exit(EXIT_FAILURE);
 	}
 	char* mem = (char*)map;
+
 
 	printf("ready\n");
 
@@ -105,8 +106,6 @@ int main(int argc, char **argv) {
 	pthread_create(&hilo2,NULL,(void*)escritura,(void*)mem);
 	pthread_join(hilo1,NULL);
 	pthread_join(hilo2,NULL);
-
-	shutdown_control_mechanism();
 
 	exit(EXIT_SUCCESS);
 }
